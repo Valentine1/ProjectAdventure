@@ -1,46 +1,83 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public class Sword : MonoBehaviour
 {
+    public float attackDuration = 0.1f; // time for moving sword forward, after it expires sword moves back
+    public float attackRetreatDuration = 0.2f;
 
-    public float swingingSpeed = 6f;
-    public float coolDownSpeed = 2f;
-    public float attackDuration = 0.25f; // time for moving sword forward, after it expires sword moves back
-
-    public float coolDownDuration = 0.5f;  // time for full motion - forward and back 
+    private float startRotationX = 330f;
+    private float endRotationX = 270f;
+    private float attackCurrentTime;
+    private float rotationCurrentX;
 
     private Quaternion targetRotation;
-    private float coolDownTimer = 0f;
 
     // Use this for initialization
     void Start()
     {
         targetRotation = Quaternion.Euler(330, 0, 0);
+        attackCurrentTime = attackDuration;
+        rotationCurrentX = startRotationX;
     }
 
     // Update is called once per frame
     void Update()
     {
-        this.transform.localRotation = Quaternion.Slerp(this.transform.localRotation, targetRotation, swingingSpeed * Time.deltaTime);
-        coolDownTimer -= Time.deltaTime;
+        this.transform.localRotation = targetRotation;
     }
 
     public void Attack()
     {
-        if (coolDownTimer <= 0)
+        if (rotationCurrentX >= startRotationX)
         {
-            targetRotation = Quaternion.Euler(270, 0, 0);
-            coolDownTimer = coolDownDuration;
-            StartCoroutine(CooldownWait());
+            StartCoroutine(AttackAnimation());
         }
-     
     }
 
-    private IEnumerator CooldownWait()
+    private IEnumerator AttackAnimation()
     {
-        yield return new WaitForSeconds(attackDuration);
-        targetRotation = Quaternion.Euler(330, 0, 0);
+        while (rotationCurrentX > endRotationX)
+        {
+            yield return null;
+            float numberOfFrames = attackCurrentTime / Time.deltaTime;
+            float rangeRotationX = endRotationX - rotationCurrentX;
+            float stepRotationX = rangeRotationX / numberOfFrames;
+            rotationCurrentX += stepRotationX;
+            attackCurrentTime -= Time.deltaTime;
+            targetRotation = Quaternion.Euler(rotationCurrentX, 0, 0);
+        }
+        if (rotationCurrentX <= endRotationX)
+        {
+            yield return null;
+            attackCurrentTime = attackRetreatDuration;
+            StartCoroutine(AttackRetreatAnimation());
+        }
     }
+
+    private IEnumerator AttackRetreatAnimation()
+    {
+
+        while (rotationCurrentX < startRotationX)
+        {
+            yield return null;
+            float numberOfFrames = attackCurrentTime / Time.deltaTime;
+            float rangeRotationX = startRotationX - rotationCurrentX;
+            float stepRotationX = rangeRotationX / numberOfFrames;
+            rotationCurrentX += stepRotationX;
+            attackCurrentTime -= Time.deltaTime;
+            targetRotation = Quaternion.Euler(rotationCurrentX, 0, 0);
+        }
+        if (rotationCurrentX >= startRotationX)
+        {
+            yield return null;
+            attackCurrentTime = attackDuration;
+            rotationCurrentX = startRotationX;
+        }
+    }
+
+
 }
