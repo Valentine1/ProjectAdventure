@@ -78,6 +78,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Project\Scripts\Bomb.cs" />
+    <Compile Include="Assets\Project\Scripts\Bow.cs" />
     <Compile Include="Assets\Project\Scripts\Player.cs" />
     <Compile Include="Assets\Project\Scripts\Sword.cs" />
   </ItemGroup>

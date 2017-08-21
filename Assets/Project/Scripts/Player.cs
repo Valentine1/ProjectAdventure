@@ -12,8 +12,11 @@ public class Player : MonoBehaviour
     public float jumpingVelocity = 10f;
     public float rotatingSpeed = 10f;
 
-    [Header("Weapons")]
+    [Header("Equipment")]
     public Sword mainSword;
+    public GameObject bombPrefab;
+    public float throwSpeed = 200f;
+    public int bombAmpunt = 5;
 
     private Rigidbody playerBody;
     private bool canJump = true;
@@ -52,7 +55,7 @@ public class Player : MonoBehaviour
                   playerBody.velocity.y,
                   playerBody.velocity.z
                 );
-            targetRotation = Quaternion.Euler(0, -90, 0);
+            targetRotation = Quaternion.Euler(0, 90, 0);
             //Model.transform.rotation = Quaternion.Lerp(Model.transform.rotation, Quaternion.Euler(0, -90, 0), rotatingSpeed * Time.deltaTime);
             //Model.transform.localEulerAngles = new Vector3(0, -90, 0);
         }
@@ -63,25 +66,25 @@ public class Player : MonoBehaviour
                   playerBody.velocity.y,
                   playerBody.velocity.z
                 );
-            targetRotation = Quaternion.Euler(0, 90, 0);
+            targetRotation = Quaternion.Euler(0, -90, 0);
         }
         if (Input.GetKey(KeyCode.UpArrow))
         {
             playerBody.velocity = new Vector3(
-                 playerBody.velocity.z,
+                 playerBody.velocity.x,
                  playerBody.velocity.y,
                  movingVelocity
                 );
-            targetRotation = Quaternion.Euler(0, 180, 0);
+            targetRotation = Quaternion.Euler(0, 0, 0);
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
             playerBody.velocity = new Vector3(
-                playerBody.velocity.z,
+                playerBody.velocity.x,
                 playerBody.velocity.y,
                 -movingVelocity
                );
-            targetRotation = Quaternion.Euler(0, 0, 0);
+            targetRotation = Quaternion.Euler(0, 180, 0);
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && canJump)
@@ -98,7 +101,23 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Z)) {
             mainSword.Attack();
         }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            ThrowBomb();
+        }
     }
 
+    private void ThrowBomb()
+    {
+        if (bombAmpunt > 0)
+        {
+            bombAmpunt--;
+            GameObject bomb = Instantiate(bombPrefab);
+            bomb.transform.position = this.transform.position + Model.transform.forward;
 
+            Vector3 throwDirection = (Model.transform.forward + Vector3.up).normalized;
+
+            bomb.GetComponent<Rigidbody>().AddForce(throwDirection * throwSpeed);
+        }
+    }
 }
