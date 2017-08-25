@@ -14,9 +14,11 @@ public class Player : MonoBehaviour
 
     [Header("Equipment")]
     public Sword mainSword;
+    public Bow bow;
     public GameObject bombPrefab;
     public float throwSpeed = 200f;
     public int bombAmpunt = 5;
+    public int arrowAmpunt = 15;
 
     private Rigidbody playerBody;
     private bool canJump = true;
@@ -102,6 +104,15 @@ public class Player : MonoBehaviour
             mainSword.Attack();
         }
         if (Input.GetKeyDown(KeyCode.X))
+        {
+            if (arrowAmpunt > 0)
+            {
+                arrowAmpunt--;
+                bow.Attack();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
         {
             ThrowBomb();
         }
