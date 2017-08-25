@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour {
 
-    public float duration = 5f;
+    public float duration = 3f;
     public float radius = 3f;
     public GameObject explosionModel;
     public float explosionDuration = 0.5f;
@@ -28,6 +28,13 @@ public class Bomb : MonoBehaviour {
         {
             exploded = true;
             Collider[] hitObjects = Physics.OverlapSphere(this.transform.position, radius);
+            foreach (var ob in hitObjects)
+            {
+                if (ob.GetComponent<Enemy>() != null)
+                {
+                    ob.GetComponent<Enemy>().Hit();
+                }
+            }
             StartCoroutine(Explode());
         }
 	}

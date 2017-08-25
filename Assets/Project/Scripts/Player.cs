@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         targetRotation = Quaternion.Euler(0, 0, 0);
+        bow.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -101,10 +102,14 @@ public class Player : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.Z)) {
+            mainSword.gameObject.SetActive(true);
+            bow.gameObject.SetActive(false);
             mainSword.Attack();
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
+            mainSword.gameObject.SetActive(false);
+            bow.gameObject.SetActive(true);
             if (arrowAmpunt > 0)
             {
                 arrowAmpunt--;
