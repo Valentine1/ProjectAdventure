@@ -8,6 +8,14 @@ public class Sword : MonoBehaviour
 {
     public float attackDuration = 0.1f; // time for moving sword forward, after it expires sword moves back
     public float attackRetreatDuration = 0.2f;
+    public bool IsAttacking
+    {
+        get
+        {
+            return isAttacking;
+        }
+    }
+
 
     private float startRotationX = 30f;
     private float endRotationX = 90f;
