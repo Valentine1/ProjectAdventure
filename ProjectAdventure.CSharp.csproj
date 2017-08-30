@@ -82,6 +82,8 @@
     <Compile Include="Assets\Project\Scripts\Bomb.cs" />
     <Compile Include="Assets\Project\Scripts\Bow.cs" />
     <Compile Include="Assets\Project\Scripts\Enemies\Enemy.cs" />
+    <Compile Include="Assets\Project\Scripts\Enemies\EnemyBullet.cs" />
+    <Compile Include="Assets\Project\Scripts\Enemies\ShootingEnemy.cs" />
     <Compile Include="Assets\Project\Scripts\Enemies\SimpleEnemy.cs" />
     <Compile Include="Assets\Project\Scripts\Enemies\StrongEnemy.cs" />
     <Compile Include="Assets\Project\Scripts\PatrollingLogic.cs" />
