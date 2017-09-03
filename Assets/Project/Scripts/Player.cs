@@ -11,8 +11,10 @@ public class Player : MonoBehaviour
     public float movingVelocity = 10f;
     public float jumpingVelocity = 10f;
     public float rotatingSpeed = 10f;
+    public float knockBackSpeed = 300f;
 
     [Header("Equipment")]
+    public int health = 5;
     public Sword mainSword;
     public Bow bow;
     public GameObject bombPrefab;
@@ -23,6 +25,7 @@ public class Player : MonoBehaviour
     private Rigidbody playerBody;
     private bool canJump = true;
     private Quaternion targetRotation;
+    private float knockBackTimer;
     // Use this for initialization
     void Start()
     {
@@ -40,7 +43,16 @@ public class Player : MonoBehaviour
             canJump = true;
         }
         Model.transform.rotation = Quaternion.Lerp(Model.transform.rotation, targetRotation, rotatingSpeed * Time.deltaTime);
-        ProcessInput();
+      
+        if (knockBackTimer > 0)
+        {
+            knockBackTimer -= Time.deltaTime;
+        }
+        else
+        {
+
+            ProcessInput();
+        }
     }
 
     private void ProcessInput()
@@ -134,6 +146,34 @@ public class Player : MonoBehaviour
             Vector3 throwDirection = (Model.transform.forward + Vector3.up).normalized;
 
             bomb.GetComponent<Rigidbody>().AddForce(throwDirection * throwSpeed);
+        }
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.GetComponent<EnemyBullet>() != null)
+        {
+            this.Hit((this.transform.position - col.transform.position).normalized);
+        }
+    }
+
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.GetComponent<Enemy>() != null)
+        {
+            this.Hit((this.transform.position - col.transform.position).normalized);
+        }
+    }
+
+    private void Hit(Vector3 direction)
+    {
+        knockBackTimer = 1f;
+        Vector3 knockBackDirection = (direction + Vector3.up).normalized;
+        playerBody.AddForce(knockBackDirection * knockBackSpeed);
+        health--;
+        if (health <= 0)
+        {
+            Destroy(this.gameObject);
         }
     }
 }
