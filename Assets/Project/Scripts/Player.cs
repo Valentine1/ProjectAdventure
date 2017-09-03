@@ -43,14 +43,13 @@ public class Player : MonoBehaviour
             canJump = true;
         }
         Model.transform.rotation = Quaternion.Lerp(Model.transform.rotation, targetRotation, rotatingSpeed * Time.deltaTime);
-      
+
         if (knockBackTimer > 0)
         {
             knockBackTimer -= Time.deltaTime;
         }
         else
         {
-
             ProcessInput();
         }
     }
@@ -113,7 +112,8 @@ public class Player : MonoBehaviour
                 );
         }
 
-        if (Input.GetKeyDown(KeyCode.Z)) {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
             mainSword.gameObject.SetActive(true);
             bow.gameObject.SetActive(false);
             mainSword.Attack();
