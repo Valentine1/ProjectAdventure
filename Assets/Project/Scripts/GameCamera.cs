@@ -17,20 +17,23 @@ public class GameCamera : MonoBehaviour {
 	
     void FixedUpdate()
     {
-        if (delayBuffer.Count < delay)
+        if (target != null)
         {
-            delayBuffer.Add(target.transform.position + offset);
-        }
-        else
-        {
-            this.transform.position = delayBuffer[0];
-
-            for (int i = 1; i < delayBuffer.Count; i++)
+            if (delayBuffer.Count < delay)
             {
-                delayBuffer[i - 1] = delayBuffer[i];
+                delayBuffer.Add(target.transform.position + offset);
             }
+            else
+            {
+                this.transform.position = delayBuffer[0];
 
-            delayBuffer[delayBuffer.Count - 1] = target.transform.position + offset;
+                for (int i = 1; i < delayBuffer.Count; i++)
+                {
+                    delayBuffer[i - 1] = delayBuffer[i];
+                }
+
+                delayBuffer[delayBuffer.Count - 1] = target.transform.position + offset;
+            }
         }
     }
 

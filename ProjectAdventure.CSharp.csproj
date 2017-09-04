@@ -87,6 +87,7 @@
     <Compile Include="Assets\Project\Scripts\Enemies\SimpleEnemy.cs" />
     <Compile Include="Assets\Project\Scripts\Enemies\StrongEnemy.cs" />
     <Compile Include="Assets\Project\Scripts\GameCamera.cs" />
+    <Compile Include="Assets\Project\Scripts\GameSceneController.cs" />
     <Compile Include="Assets\Project\Scripts\PatrollingLogic.cs" />
     <Compile Include="Assets\Project\Scripts\Player.cs" />
     <Compile Include="Assets\Project\Scripts\Sword.cs" />

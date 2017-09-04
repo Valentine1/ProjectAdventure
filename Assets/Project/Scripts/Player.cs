@@ -19,8 +19,8 @@ public class Player : MonoBehaviour
     public Bow bow;
     public GameObject bombPrefab;
     public float throwSpeed = 200f;
-    public int bombAmpunt = 5;
-    public int arrowAmpunt = 15;
+    public int bombAmount = 5;
+    public int arrowAmount = 15;
 
     private Rigidbody playerBody;
     private bool canJump = true;
@@ -122,9 +122,9 @@ public class Player : MonoBehaviour
         {
             mainSword.gameObject.SetActive(false);
             bow.gameObject.SetActive(true);
-            if (arrowAmpunt > 0)
+            if (arrowAmount > 0)
             {
-                arrowAmpunt--;
+                arrowAmount--;
                 bow.Attack();
             }
         }
@@ -137,9 +137,9 @@ public class Player : MonoBehaviour
 
     private void ThrowBomb()
     {
-        if (bombAmpunt > 0)
+        if (bombAmount > 0)
         {
-            bombAmpunt--;
+            bombAmount--;
             GameObject bomb = Instantiate(bombPrefab);
             bomb.transform.position = this.transform.position + Model.transform.forward;
 
@@ -154,6 +154,7 @@ public class Player : MonoBehaviour
         if (col.GetComponent<EnemyBullet>() != null)
         {
             this.Hit((this.transform.position - col.transform.position).normalized);
+            Destroy(col.gameObject);
         }
     }
 
